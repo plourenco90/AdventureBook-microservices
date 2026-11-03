@@ -31,6 +31,7 @@ public class BookServiceExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(errorResponse);
     }
 
+    @ResponseBody
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ServiceErrorResponse> handleUnexpected(Exception ex) {
         log.error("Unexpected error processing request", ex);

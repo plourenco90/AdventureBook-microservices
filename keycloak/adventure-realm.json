@@ -1,0 +1,93 @@
+{
+  "realm": "adventure",
+  "enabled": true,
+  "displayName": "Adventure Book",
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "clientScopes": [
+    {
+      "name": "books.internal.read",
+      "description": "Access internal book endpoints",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "false"
+      },
+      "protocolMappers": [
+        {
+          "name": "books.internal.read audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.client.audience": "book-service",
+            "id.token.claim": "false",
+            "access.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "adventure-service",
+      "name": "Adventure Service",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "adventure-service-secret",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [
+        "http://localhost:8082/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8082"
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "roles",
+        "profile",
+        "books.internal.read",
+        "email"
+      ]
+    },
+    {
+      "clientId": "angular-client",
+      "name": "Angular Frontend",
+      "enabled": true,
+      "clientAuthenticatorType": "none",
+      "publicClient": false,
+      "bearerOnly": false,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": [
+        "http://localhost:4200/*"
+      ],
+      "webOrigins": [
+        "http://localhost:4200"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      }
+    }
+  ],
+  "roles": {
+    "client": {
+      "adventure-service": [
+        {
+          "name": "books.internal.read",
+          "description": "Read books through internal endpoints"
+        }
+      ]
+    }
+  },
+  "users": []
+}

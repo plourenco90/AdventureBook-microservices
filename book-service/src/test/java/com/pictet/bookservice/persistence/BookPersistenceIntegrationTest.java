@@ -9,7 +9,6 @@ import com.pictet.bookservice.infrastructure.persistence.mapper.BookPersistenceM
 import com.pictet.bookservice.infrastructure.persistence.repository.BookRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Transactional
-@SpringBootTest
 public class BookPersistenceIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired

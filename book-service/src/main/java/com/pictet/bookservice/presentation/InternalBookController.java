@@ -34,11 +34,11 @@ public class InternalBookController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Status and details of the book",
-                    content = @Content(schema = @Schema(implementation = BookPlayableResponse.class))),
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = BookPlayableResponse.class))),
             @ApiResponse(
                     responseCode = "404",
                     description = "Book Not Found",
-                    content = @Content(schema = @Schema(implementation = ServiceErrorResponse.class)))})
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ServiceErrorResponse.class)))})
     public ResponseEntity<BookPlayableResponse> getPlayableBook(@PathVariable Long id) {
         BookResponse book = bookService.findById(id);
         BookValidationResponse validation = bookService.validation(id);

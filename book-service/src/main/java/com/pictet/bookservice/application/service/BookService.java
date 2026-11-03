@@ -25,7 +25,6 @@ import java.util.Optional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class BookService {
 
     private final BookRepository bookRepository;
@@ -34,6 +33,7 @@ public class BookService {
     private final BookValidationRepository bookValidationRepository;
     private final UnreachableSectionsAnalyzer unreachableSectionsAnalyzer = new UnreachableSectionsAnalyzer();
 
+    @Transactional(readOnly = true)
     public List<BookSummaryResponse> findAll() {
         return bookRepository.findAll().stream()
                 .map(book -> new BookSummaryResponse(
@@ -44,6 +44,7 @@ public class BookService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public BookSummaryResponse findSummaryById(Long id) {
         return bookRepository.findOneById(id).map(book ->
                 new BookSummaryResponse(
@@ -53,12 +54,14 @@ public class BookService {
                         isValid(book.getId()))).orElseThrow(() -> new BookNotFoundException(id));
     }
 
+    @Transactional(readOnly = true)
     public BookResponse findById(Long id) {
         log.info("Finding book with ID={}", id);
         Book book = findBook(id);
         return bookResponseMapper.toResponse(book);
     }
 
+    @Transactional(readOnly = true)
     public BookValidationResponse validation(Long id) {
         Book book = findBook(id);
         Optional<BookValidationEntity> bookValidation = bookValidationRepository.findOneByBookId(book.id());
@@ -72,6 +75,7 @@ public class BookService {
         return new BookValidationResponse(book.id(), true, new ArrayList<>());
     }
 
+    @Transactional(readOnly = true)
     public UnreachableSectionsResponse findUnreachableSections(Long id) {
         Book book = findBook(id);
         BookValidationResponse validationResult = validation(id);

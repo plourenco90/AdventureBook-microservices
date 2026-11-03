@@ -1,20 +1,24 @@
 package com.pictet.bookservice.persistence;
 
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
+@SpringBootTest
+@AutoConfigureMockMvc
 public class AbstractIntegrationTest {
 
-    @Container
     static final PostgreSQLContainer<?> POSTGRES =
             new PostgreSQLContainer<>("postgres:18.6-alpine3.24")
                     .withDatabaseName("adventure_test")
                     .withUsername("test")
                     .withPassword("test");
+
+    static {
+        POSTGRES.start();
+    }
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
